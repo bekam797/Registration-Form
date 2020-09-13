@@ -1,0 +1,17 @@
+export const SET_USER_DATA = 'set_user_data';
+export const PERSONAL_NUMBER = 'პირადი ნომერი';
+export const USER_NAME = 'მომხმარებელი';
+export const SELECT_LANGUAGE_TEXT = 'ქვეყანა';
+export const SIGN_UP_TEXT = 'რეგისტრაცია';
+export const EMAIL_ADDRESS_TEXT = 'ელ-ფოსტა';
+export const EMAIL_ERROR = 'email is not valid';
+export const VAIDATE_TEXT = 'This field is required';
+export const PASSWORD_TEXT = 'პაროლი';
+export const TRY_CATCH_ERROR = 'Some error has occured';
+export const FIRST_NAME_TEXT = 'სახელი';
+export const LAST_NAME_TEXT = 'გვარი';
+export const GEORGIA_TEXT = 'Georgia';
+export const FRENCH_TEXT = 'French';
+export const ENGLISH_TEXT = 'English';
+export const PORTUGUESE_TEXT = 'Portuguese';
+export const MIN_TEXT = 'Password should contain 6 digits';
