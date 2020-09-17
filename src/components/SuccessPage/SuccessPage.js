@@ -66,7 +66,6 @@ const SuccessPage = (props) => {
       </h1>
     );
   }
-  console.log(props.userData.firstName);
   return <>{name}</>;
 };
 
