@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     maxWidth: 752,
     margin: 'auto',
+    color: '#fff',
   },
   title: {
     margin: theme.spacing(4, 0, 2),
