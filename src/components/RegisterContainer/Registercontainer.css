@@ -1,0 +1,109 @@
+.form-group {
+  display: flex;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.form-label {
+  width: 200px;
+  padding-right: 20px;
+  text-align: right;
+  font-size: 14px;
+  line-height: 34px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.form-control {
+  display: block;
+  height: 38px;
+  background: #616161;
+  border: none;
+  font-size: 14px;
+  text-indent: 20px;
+  width: 280px;
+  transition: all 0s ease;
+  border-bottom: 1px solid transparent;
+  color: #fff;
+  outline: none;
+}
+
+.form-control:hover {
+  background: #fff;
+  color: #424242;
+  transition: all 0.5s ease;
+}
+
+.form-required {
+  font-size: 13px;
+  color: #ff5050;
+}
+
+.birth-number {
+  width: 97px;
+  background: #616161;
+  color: #fff;
+}
+
+.birth-month {
+  width: 80px;
+  margin-left: 10px;
+  background: #616161;
+  color: #fff;
+}
+
+.birth-year {
+  width: 83px;
+  margin-left: 10px;
+  background: #616161;
+  color: #fff;
+}
+
+.error {
+  position: absolute;
+  content: 'dfsdf';
+  width: 200px;
+  border-radius: 2px;
+  background: #fff;
+  left: 104%;
+  z-index: 99;
+  top: 0;
+  padding: 10px;
+  color: #a21d1d;
+  font-family: 'lbet-st', sans-serif;
+  font-size: 13px;
+}
+
+.error:before {
+  content: '';
+  position: absolute;
+  left: -9px;
+  top: 9px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid white;
+}
+
+.field-status {
+  width: 34px;
+  height: 34px;
+  top: 2px;
+  right: 7px;
+  z-index: 99999;
+  background-image: url(https://www.lider-bet.com/gui/web/css/images/field_error.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  position: absolute;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}

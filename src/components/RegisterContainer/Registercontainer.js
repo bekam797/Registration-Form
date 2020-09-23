@@ -2,39 +2,20 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import MenuItem from '@material-ui/core/MenuItem';
-import Divider from '@material-ui/core/Divider';
-import {
-  ValidatorForm,
-  TextValidator,
-  SelectValidator,
-} from 'react-material-ui-form-validator';
-import {
-  SET_USER_DATA,
-  PERSONAL_NUMBER,
-  SIGN_UP_TEXT,
-  EMAIL_ADDRESS_TEXT,
-  VAIDATE_TEXT,
-  EMAIL_ERROR,
-  PASSWORD_TEXT,
-  USER_NAME,
-  FIRST_NAME_TEXT,
-  LAST_NAME_TEXT,
-  SELECT_LANGUAGE_TEXT,
-  GEORGIA_TEXT,
-  FRENCH_TEXT,
-  PORTUGUESE_TEXT,
-  MIN_TEXT,
-} from '../../Constants/constants';
+
+import { SET_USER_DATA, SIGN_UP_TEXT } from '../../Constants/constants';
 import { connect } from 'react-redux';
+import { validate, validateForm } from '../../validation/validation';
+
+import './Registercontainer.css';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     width: 550,
-    backgroundColor: theme.palette.background.paper,
+    color: '#fff',
+    backgroundColor: '#424242',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
@@ -45,11 +26,24 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     marginTop: theme.spacing(3),
   },
+  buttonPos: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginRight: '6px',
+  },
   submit: {
-    margin: theme.spacing(2, 0, 2),
-    backgroundColor: '#202126',
+    fontFamily: 'lbet-mt',
+    width: '280px',
+    padding: '10px',
+    background: '#cecece',
+    color: '#1b1b1b',
+    borderRadius: '2px',
+    outline: 'none',
+    transition: 'all 0.2s ease',
+    fontWeight: 'bold',
     '&:hover': {
-      background: '#3c3737',
+      background: '#43a047',
+      color: '#fff',
     },
   },
 }));
@@ -58,21 +52,27 @@ const RegisterContainer = (props) => {
   const classes = useStyles();
 
   const [formData, setFordata] = useState({
-    firstName: { value: '', error: false },
-    lastName: { value: '', error: false },
-    country: { value: 'georgia', error: false },
-    personalNumber: { value: '', error: false },
-    email: { value: '', error: false },
-    userName: { value: '', error: false },
-    password: { value: '', error: false },
+    firstName: { value: '', error: '' },
+    lastName: { value: '', error: '' },
+    country: { value: 'georgia', error: '' },
+    personalNumber: { value: '', error: '' },
+    birthNumber: { value: 'რიცხვი', error: '' },
+    birthMonth: { value: 'თვე', error: '' },
+    birthYear: { value: 'წელი', error: '' },
+    phone: { value: '', error: '' },
+    email: { value: '', error: '' },
+    userName: { value: '', error: '' },
+    password: { value: '', error: '' },
   });
+
+  const [fildStatus, setFieldStatus] = useState(false);
+
   const handleFieldChange = (e) => {
     e.preventDefault();
-    let errorFlag = false;
-    const { name } = e.target;
-    if (e.target.value === '') {
-      errorFlag = true;
-    }
+    const { name, value } = e.target;
+
+    const errorFlag = validate(name, value);
+
     setFordata({
       ...formData,
       [name]: { value: e.target.value.trim(), error: errorFlag },
@@ -81,214 +81,313 @@ const RegisterContainer = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    var promise = new Promise(function (resolve, reject) {
-      resolve(props.userRegister(formData));
-    });
 
-    promise
-      .then(function () {
-        props.history.push('/success');
-      })
-      .catch(function () {
-        console.log('Some error has occured');
+    if (validateForm(formData)) {
+      const promise = new Promise(function (resolve, reject) {
+        resolve(props.userRegister(formData));
       });
+
+      promise
+        .then(function () {
+          props.history.push('/success');
+        })
+        .catch(function () {
+          console.log('Some error has occured');
+        });
+    } else {
+      setFieldStatus(true);
+    }
   };
-
-  ValidatorForm.addValidationRule('isFirstName', (value) => {
-    if (value.length > 2) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  ValidatorForm.addValidationRule('isLastName', (value) => {
-    if (value.length > 4) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  ValidatorForm.addValidationRule('isUserName', (value) => {
-    if (value.length > 4) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  ValidatorForm.addValidationRule('isPersonalNum', (value) => {
-    if (value.length >= 11) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
-  ValidatorForm.addValidationRule('isPassword', (value) => {
-    if (value.length >= 6) {
-      return true;
-    } else {
-      return false;
-    }
-  });
 
   return (
     <Container className={classes.card} maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
+        <Typography
+          component="h1"
+          variant="h5"
+          style={{ marginBottom: '30px' }}
+        >
           {SIGN_UP_TEXT}
         </Typography>
-        <ValidatorForm
-          noValidate
-          autoComplete="off"
-          onSubmit={handleFormSubmit}
-          name="registerForm"
-          className={classes.form}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextValidator
-                autoComplete="fname"
-                name="firstName"
+        <form onSubmit={handleFormSubmit}>
+          <div className="form-group">
+            <label className="form-label">
+              სახელი <span className="form-required">*</span>
+            </label>
+
+            <input
+              className="form-control"
+              name="firstName"
+              value={formData.firstName.value}
+              id="firstName"
+              type="text"
+              onChange={handleFieldChange}
+            />
+            <div
+              className="error"
+              style={{
+                display: formData.firstName.error === '' ? 'none' : 'block',
+              }}
+            >
+              <span>{formData.firstName.error}</span>
+            </div>
+            <div
+              className="field-status"
+              style={{
+                display:
+                  fildStatus && formData.firstName.value.length <= 2
+                    ? 'block'
+                    : 'none',
+              }}
+            ></div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">
+              გვარი <span className="form-required">*</span>
+            </label>
+            <input
+              className="form-control"
+              name="lastName"
+              value={formData.lastName.value}
+              id="lastName"
+              type="text"
+              onChange={handleFieldChange}
+            />
+            <div
+              className="error"
+              style={{
+                display: formData.lastName.error === '' ? 'none' : 'block',
+              }}
+            >
+              <span>{formData.lastName.error}</span>
+            </div>
+            <div
+              className="field-status"
+              style={{
+                display:
+                  fildStatus && formData.lastName.value.length <= 4
+                    ? 'block'
+                    : 'none',
+              }}
+            ></div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">
+              ქვეყანა <span className="form-required">*</span>
+            </label>
+            <select
+              className="form-control"
+              variant="outlined"
+              id="country"
+              name="country"
+              value={formData.country.value || 'georgia'}
+              onChange={handleFieldChange}
+            >
+              <option value="georgia">Georgia(საქართველო)</option>
+              <option value="french">French</option>
+              <option value="portuguese">Portuguese</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label className="form-label">
+              პირადი ნომერი <span className="form-required">*</span>
+            </label>
+            <input
+              className="form-control"
+              name="personalNumber"
+              value={formData.personalNumber.value || ''}
+              id="personalNumber"
+              type="number"
+              onChange={handleFieldChange}
+            />
+            <div
+              className="error"
+              style={{
+                display:
+                  formData.personalNumber.error === '' ? 'none' : 'block',
+              }}
+            >
+              <span>{formData.personalNumber.error}</span>
+            </div>
+            <div
+              className="field-status"
+              style={{
+                display:
+                  fildStatus && formData.personalNumber.value.length <= 8
+                    ? 'block'
+                    : 'none',
+              }}
+            ></div>
+          </div>
+          <div>
+            <div className="form-group">
+              <label className="form-label">
+                დაბადების თარიღი <span className="form-required">*</span>
+              </label>
+              <select
+                className="birth-number"
                 variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label={FIRST_NAME_TEXT}
-                value={formData.firstName.value || ''}
-                error={formData.firstName.error || false}
-                validators={['required', 'isFirstName']}
-                errorMessages={[
-                  VAIDATE_TEXT,
-                  'The name must contain at least 2 characters',
-                ]}
-                onChange={handleFieldChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextValidator
-                variant="outlined"
-                required
-                fullWidth
-                id="lastName"
-                label={LAST_NAME_TEXT}
-                name="lastName"
-                autoComplete="lname"
-                value={formData.lastName.value || ''}
-                error={formData.lastName.error || false}
-                validators={['required', 'isLastName']}
-                errorMessages={[
-                  VAIDATE_TEXT,
-                  'The surname must contain at least 4 characters',
-                ]}
-                onChange={handleFieldChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <SelectValidator
-                variant="outlined"
-                required
-                fullWidth
-                select
-                id="country"
-                label={SELECT_LANGUAGE_TEXT}
-                name="country"
-                value={formData.country.value || 'georgia'}
-                error={formData.country.error || false}
+                id="birthNumber"
+                name="birthNumber"
+                value={formData.birthNumber.value || 'რიცხვი'}
                 onChange={handleFieldChange}
               >
-                <MenuItem value={'georgia'}>{GEORGIA_TEXT}</MenuItem>
-                <MenuItem value={'french'}>{FRENCH_TEXT} </MenuItem>
-                <MenuItem value={'portuguese'}>{PORTUGUESE_TEXT} </MenuItem>
-              </SelectValidator>
-            </Grid>
-            <Grid item xs={12}>
-              <TextValidator
+                <option value="რიცხვი">რიცხვი</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+              </select>
+              <select
+                className="birth-month"
                 variant="outlined"
-                required
-                fullWidth
-                name="personalNumber"
-                label={PERSONAL_NUMBER}
-                id="personalNumber"
-                autoComplete="personalnumber"
-                value={formData.personalNumber.value || ''}
-                validators={['required', 'isPersonalNum']}
-                errorMessages={[
-                  VAIDATE_TEXT,
-                  'Personal Number must contain at least 11 characters',
-                ]}
-                error={formData.personalNumber.error || false}
+                id="birthMonth"
+                name="birthMonth"
+                value={formData.birthMonth.value || 'თვე'}
                 onChange={handleFieldChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextValidator
+              >
+                <option value="თვე">თვე</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+              </select>
+              <select
+                className="birth-year"
                 variant="outlined"
-                fullWidth
-                id="email"
-                label={EMAIL_ADDRESS_TEXT}
-                name="email"
-                autoComplete="email"
-                value={formData.email.value || ''}
-                validators={['isEmail']}
-                errorMessages={[EMAIL_ERROR]}
-                error={formData.email.error || false}
+                id="birthYear"
+                name="birthYear"
+                value={formData.birthYear.value || 'წელი'}
                 onChange={handleFieldChange}
-              />
-            </Grid>
-            <Divider />
-            <Grid item xs={12}>
-              <TextValidator
-                variant="outlined"
-                fullWidth
-                required
-                name="userName"
-                label={USER_NAME}
-                type="userName"
-                id="userName"
-                autoComplete="userName"
-                value={formData.userName.value || ''}
-                validators={['required', 'isUserName']}
-                errorMessages={[
-                  VAIDATE_TEXT,
-                  'Username must contain at least 4 characters',
-                ]}
-                error={formData.userName.error || false}
-                onChange={handleFieldChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextValidator
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label={PASSWORD_TEXT}
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={formData.password.value || ''}
-                validators={['isPassword']}
-                errorMessages={[MIN_TEXT]}
-                error={formData.password.error || false}
-                helperText={[MIN_TEXT]}
-                onChange={handleFieldChange}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            {SIGN_UP_TEXT}
-          </Button>
-        </ValidatorForm>
+              >
+                <option value="წელი">წელი</option>
+                <option value="2000">2000</option>
+                <option value="2001">2001</option>
+                <option value="2002">2002</option>
+              </select>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">
+              ტელეფონი <span className="form-required">*</span>
+            </label>
+            <input
+              className="form-control"
+              type="number"
+              name="phone"
+              placeholder="(+995) --- -- -- --"
+              value={formData.phone.value}
+              onChange={handleFieldChange}
+            />
+            <div
+              className="error"
+              style={{
+                display: formData.phone.error === '' ? 'none' : 'block',
+              }}
+            >
+              <span>{formData.phone.error}</span>
+            </div>
+            <div
+              className="field-status"
+              style={{
+                display:
+                  fildStatus && formData.phone.value.length <= 9
+                    ? 'block'
+                    : 'none',
+              }}
+            ></div>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">ელ-ფოსტა</label>
+            <input
+              className="form-control"
+              name="email"
+              value={formData.email.value}
+              id="email"
+              type="text"
+              onChange={handleFieldChange}
+            />
+            <div
+              className="error"
+              style={{
+                display: formData.email.error === '' ? 'none' : 'block',
+              }}
+            >
+              <span>{formData.email.error}</span>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">
+              მომხმარებელი <span className="form-required">*</span>
+            </label>
+            <input
+              className="form-control"
+              name="userName"
+              value={formData.userName.value}
+              id="userName"
+              type="text"
+              onChange={handleFieldChange}
+            />
+            <div
+              className="error"
+              style={{
+                display: formData.userName.error === '' ? 'none' : 'block',
+              }}
+            >
+              <span>{formData.userName.error}</span>
+            </div>
+            <div
+              className="field-status"
+              style={{
+                display:
+                  fildStatus && formData.userName.value.length <= 4
+                    ? 'block'
+                    : 'none',
+              }}
+            ></div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">
+              პაროლი <span className="form-required">*</span>
+            </label>
+            <input
+              className="form-control"
+              name="password"
+              value={formData.password.value}
+              id="password"
+              type="password"
+              onChange={handleFieldChange}
+            />
+            <div
+              className="error"
+              style={{
+                display: formData.password.error === '' ? 'none' : 'block',
+              }}
+            >
+              <span>{formData.password.error}</span>
+            </div>
+            <div
+              className="field-status"
+              style={{
+                display:
+                  fildStatus && formData.password.value.length <= 6
+                    ? 'block'
+                    : 'none',
+              }}
+            ></div>
+          </div>
+          <div className={classes.buttonPos}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              რეგისტრაცია
+            </Button>
+          </div>
+        </form>
       </div>
     </Container>
   );
