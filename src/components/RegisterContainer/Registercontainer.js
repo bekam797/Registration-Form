@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
-import { SET_USER_DATA, SIGN_UP_TEXT } from '../../Constants/constants';
+import { SET_USER_DATA } from '../../Constants/constants';
 import { connect } from 'react-redux';
 import { validate, validateForm } from '../../validation/validation';
 
@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 const RegisterContainer = (props) => {
   const classes = useStyles();
 
-  const [formData, setFordata] = useState({
+  const [formData, setFormData] = useState({
     firstName: { value: '', error: '' },
     lastName: { value: '', error: '' },
     country: { value: 'georgia', error: '' },
@@ -65,7 +65,7 @@ const RegisterContainer = (props) => {
     password: { value: '', error: '' },
   });
 
-  const [fildStatus, setFieldStatus] = useState(false);
+  const [fieldStatus, setFieldStatus] = useState(false);
 
   const handleFieldChange = (e) => {
     e.preventDefault();
@@ -73,7 +73,7 @@ const RegisterContainer = (props) => {
 
     const errorFlag = validate(name, value);
 
-    setFordata({
+    setFormData({
       ...formData,
       [name]: { value: e.target.value.trim(), error: errorFlag },
     });
@@ -108,7 +108,7 @@ const RegisterContainer = (props) => {
           variant="h5"
           style={{ marginBottom: '30px' }}
         >
-          {SIGN_UP_TEXT}
+          რეგისტრაცია
         </Typography>
         <form onSubmit={handleFormSubmit}>
           <div className="form-group">
@@ -120,7 +120,6 @@ const RegisterContainer = (props) => {
               className="form-control"
               name="firstName"
               value={formData.firstName.value}
-              id="firstName"
               type="text"
               onChange={handleFieldChange}
             />
@@ -136,7 +135,7 @@ const RegisterContainer = (props) => {
               className="field-status"
               style={{
                 display:
-                  fildStatus && formData.firstName.value.length <= 2
+                  fieldStatus && formData.firstName.value.length <= 2
                     ? 'block'
                     : 'none',
               }}
@@ -150,7 +149,6 @@ const RegisterContainer = (props) => {
               className="form-control"
               name="lastName"
               value={formData.lastName.value}
-              id="lastName"
               type="text"
               onChange={handleFieldChange}
             />
@@ -166,7 +164,7 @@ const RegisterContainer = (props) => {
               className="field-status"
               style={{
                 display:
-                  fildStatus && formData.lastName.value.length <= 4
+                  fieldStatus && formData.lastName.value.length <= 4
                     ? 'block'
                     : 'none',
               }}
@@ -178,8 +176,6 @@ const RegisterContainer = (props) => {
             </label>
             <select
               className="form-control"
-              variant="outlined"
-              id="country"
               name="country"
               value={formData.country.value || 'georgia'}
               onChange={handleFieldChange}
@@ -197,7 +193,6 @@ const RegisterContainer = (props) => {
               className="form-control"
               name="personalNumber"
               value={formData.personalNumber.value || ''}
-              id="personalNumber"
               type="number"
               onChange={handleFieldChange}
             />
@@ -214,7 +209,7 @@ const RegisterContainer = (props) => {
               className="field-status"
               style={{
                 display:
-                  fildStatus && formData.personalNumber.value.length <= 8
+                  fieldStatus && formData.personalNumber.value.length <= 8
                     ? 'block'
                     : 'none',
               }}
@@ -227,8 +222,6 @@ const RegisterContainer = (props) => {
               </label>
               <select
                 className="birth-number"
-                variant="outlined"
-                id="birthNumber"
                 name="birthNumber"
                 value={formData.birthNumber.value || 'რიცხვი'}
                 onChange={handleFieldChange}
@@ -240,8 +233,6 @@ const RegisterContainer = (props) => {
               </select>
               <select
                 className="birth-month"
-                variant="outlined"
-                id="birthMonth"
                 name="birthMonth"
                 value={formData.birthMonth.value || 'თვე'}
                 onChange={handleFieldChange}
@@ -253,8 +244,6 @@ const RegisterContainer = (props) => {
               </select>
               <select
                 className="birth-year"
-                variant="outlined"
-                id="birthYear"
                 name="birthYear"
                 value={formData.birthYear.value || 'წელი'}
                 onChange={handleFieldChange}
@@ -290,7 +279,7 @@ const RegisterContainer = (props) => {
               className="field-status"
               style={{
                 display:
-                  fildStatus && formData.phone.value.length <= 9
+                  fieldStatus && formData.phone.value.length <= 9
                     ? 'block'
                     : 'none',
               }}
@@ -303,7 +292,6 @@ const RegisterContainer = (props) => {
               className="form-control"
               name="email"
               value={formData.email.value}
-              id="email"
               type="text"
               onChange={handleFieldChange}
             />
@@ -324,7 +312,6 @@ const RegisterContainer = (props) => {
               className="form-control"
               name="userName"
               value={formData.userName.value}
-              id="userName"
               type="text"
               onChange={handleFieldChange}
             />
@@ -340,7 +327,7 @@ const RegisterContainer = (props) => {
               className="field-status"
               style={{
                 display:
-                  fildStatus && formData.userName.value.length <= 4
+                  fieldStatus && formData.userName.value.length <= 4
                     ? 'block'
                     : 'none',
               }}
@@ -354,7 +341,6 @@ const RegisterContainer = (props) => {
               className="form-control"
               name="password"
               value={formData.password.value}
-              id="password"
               type="password"
               onChange={handleFieldChange}
             />
@@ -370,7 +356,7 @@ const RegisterContainer = (props) => {
               className="field-status"
               style={{
                 display:
-                  fildStatus && formData.password.value.length <= 6
+                  fieldStatus && formData.password.value.length <= 6
                     ? 'block'
                     : 'none',
               }}
