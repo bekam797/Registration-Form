@@ -47,13 +47,11 @@ export const validate = (name, value) => {
 };
 
 export const validateForm = (data) => {
-  let valid = true;
-
-  Object.values(data).forEach((val) => {
-    if (val.value.length > 0 && val.error.length > 0) {
-      valid = true;
+  let valid = Object.values(data).every((val) => {
+    if (val.value.length > 0 && val.error === '') {
+      return true;
     } else if (val.value === '' || val.error.length > 0) {
-      valid = false;
+      return false;
     }
   });
 
