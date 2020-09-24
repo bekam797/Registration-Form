@@ -48,7 +48,14 @@ export const validate = (name, value) => {
 
 export const validateForm = (data) => {
   let valid = Object.values(data).every((val) => {
-    if (val.value.length > 0 && val.error === '') {
+    console.log(val.value === 'რიცხვი');
+    if (
+      val.value.length > 0 &&
+      val.error === '' &&
+      val.value !== 'რიცხვი' &&
+      val.value !== 'თვე' &&
+      val.value !== 'წელი'
+    ) {
       return true;
     } else if (val.value === '' || val.error.length > 0) {
       return false;

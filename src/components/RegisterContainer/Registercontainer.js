@@ -220,39 +220,83 @@ const RegisterContainer = (props) => {
               <label className="form-label">
                 დაბადების თარიღი <span className="form-required">*</span>
               </label>
-              <select
-                className="birth-number"
-                name="birthNumber"
-                value={formData.birthNumber.value || 'რიცხვი'}
-                onChange={handleFieldChange}
-              >
-                <option value="რიცხვი">რიცხვი</option>
-                <option value="01">01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-              </select>
-              <select
-                className="birth-month"
-                name="birthMonth"
-                value={formData.birthMonth.value || 'თვე'}
-                onChange={handleFieldChange}
-              >
-                <option value="თვე">თვე</option>
-                <option value="01">01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-              </select>
-              <select
-                className="birth-year"
-                name="birthYear"
-                value={formData.birthYear.value || 'წელი'}
-                onChange={handleFieldChange}
-              >
-                <option value="წელი">წელი</option>
-                <option value="2000">2000</option>
-                <option value="2001">2001</option>
-                <option value="2002">2002</option>
-              </select>
+              <div>
+                <select
+                  className="birth-number"
+                  name="birthNumber"
+                  value={formData.birthNumber.value || 'რიცხვი'}
+                  onChange={handleFieldChange}
+                >
+                  <option value="რიცხვი">რიცხვი</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                </select>
+                <div
+                  style={{
+                    display:
+                      fieldStatus && formData.birthNumber.value === 'რიცხვი'
+                        ? 'block'
+                        : 'none',
+                    width: '97px',
+                    height: '2px',
+                    background: '#A21D1D',
+                    position: 'absolute',
+                  }}
+                ></div>
+              </div>
+              <div>
+                <select
+                  className="birth-month"
+                  name="birthMonth"
+                  value={formData.birthMonth.value || 'თვე'}
+                  onChange={handleFieldChange}
+                >
+                  <option value="თვე">თვე</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                </select>
+                <div
+                  style={{
+                    display:
+                      fieldStatus && formData.birthMonth.value === 'თვე'
+                        ? 'block'
+                        : 'none',
+                    width: '80px',
+                    height: '2px',
+                    background: '#A21D1D',
+                    position: 'absolute',
+                    marginLeft: '10px',
+                  }}
+                ></div>
+              </div>
+              <div>
+                <select
+                  className="birth-year"
+                  name="birthYear"
+                  value={formData.birthYear.value || 'წელი'}
+                  onChange={handleFieldChange}
+                >
+                  <option value="წელი">წელი</option>
+                  <option value="2000">2000</option>
+                  <option value="2001">2001</option>
+                  <option value="2002">2002</option>
+                </select>
+                <div
+                  style={{
+                    display:
+                      fieldStatus && formData.birthYear.value === 'წელი'
+                        ? 'block'
+                        : 'none',
+                    width: '83px',
+                    height: '2px',
+                    background: '#A21D1D',
+                    position: 'absolute',
+                    marginLeft: '10px',
+                  }}
+                ></div>
+              </div>
             </div>
           </div>
           <div className="form-group">

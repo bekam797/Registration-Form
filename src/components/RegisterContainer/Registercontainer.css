@@ -42,22 +42,28 @@
 
 .birth-number {
   width: 97px;
+  height: 100%;
   background: #616161;
   color: #fff;
+  outline: none;
 }
 
 .birth-month {
   width: 80px;
+  height: 100%;
   margin-left: 10px;
   background: #616161;
   color: #fff;
+  outline: none;
 }
 
 .birth-year {
   width: 83px;
+  height: 100%;
   margin-left: 10px;
   background: #616161;
   color: #fff;
+  outline: none;
 }
 
 .error {
