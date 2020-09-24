@@ -312,18 +312,10 @@ const RegisterContainer = (props) => {
               onChange={handleFieldChange}
             />
             <div
-              className="error"
-              style={{
-                display: formData.phone.error === '' ? 'none' : 'block',
-              }}
-            >
-              <span>{formData.phone.error}</span>
-            </div>
-            <div
               className="field-status"
               style={{
                 display:
-                  fieldStatus && formData.phone.value.length <= 9
+                  fieldStatus && formData.phone.value.length <= 8
                     ? 'block'
                     : 'none',
               }}

@@ -48,7 +48,6 @@ export const validate = (name, value) => {
 
 export const validateForm = (data) => {
   let valid = Object.values(data).every((val) => {
-    console.log(val.value === 'რიცხვი');
     if (
       val.value.length > 0 &&
       val.error === '' &&
